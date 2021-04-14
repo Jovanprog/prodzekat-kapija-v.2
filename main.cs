@@ -1,68 +1,94 @@
 using System;
 
 class MainClass {
-
+  /*
   static bool meni = true;
   static bool kraj = false;
-  static int kurX = 3;
+  */
+  static int kurX = 5;
 	static int kurY = 6;
-  static int pocRed = 3;
+  /*
+  static int pocRed = 5;
 	static int pocKol = 6;
+  */
   static int tablaX = 0;
 	static int tablaY = 0;
 
   static void PomeriDesno()
 	{
-		if (kurX < 35) 
+		if (kurX < 55) 
 		{
-			kurX+=4;
+			kurX += 11;
 			tablaX++;
+		}
+	}
+  static void PomeriLevo()
+	{
+		if (kurX > 4)
+		{
+			kurX -= 11;
+			tablaX--;
 		}
 	}
 	static void PomeriDole()
 	{
-		if (kurY < 20)
-		{
-			kurY+=2;
+		//if (kurY < 8)
+		//{
+			kurY += 1;
 			tablaY++;
-		}
+		//}
 	}
 	static void PomeriGore()
 	{
-		if (kurY > 6)
+		if (kurY > 8)
 		{
-			kurY-=2;
+			kurY -= 1;
 			tablaY--;
 		}
 	}
-	static void PomeriLevo()
+	
+  static void OdaberiPolje()
 	{
-		if (kurX > 7)
-		{
-			kurX-=4;
-			tablaX--;
-		}
-	}
-
-
-	/*static void OdaberiPolje()
-	{
-		ConsoleKeyInfo cki;
+		ConsoleKeyInfo taster;
 		do
 		{
 			Console.SetCursorPosition(kurX, kurY);
-			cki = Console.ReadKey(true);
-			if (cki.Key == ConsoleKey.UpArrow)
+			taster = Console.ReadKey(true);
+			if (taster.Key == ConsoleKey.LeftArrow)
+      {
+        PomeriLevo();
+      }
+			else if (taster.Key == ConsoleKey.RightArrow)
+      {
+        PomeriDesno();
+      }	
+		} while(taster.Key != ConsoleKey.Enter);
+	}
+
+	/*static void KretanjeKrozTekst()
+	{
+		ConsoleKeyInfo taster;
+		do
+		{
+			Console.SetCursorPosition(kurX, kurY);
+			taster = Console.ReadKey(true);
+			if (taster.Key == ConsoleKey.UpArrow)
+      {
 				PomeriGore();
-			else if (cki.Key == ConsoleKey.DownArrow)
+      }
+			else if (taster.Key == ConsoleKey.DownArrow)
+      {
 				PomeriDole();
-			else if (cki.Key == ConsoleKey.LeftArrow)
-				PomeriLevo();
-			else if (cki.Key == ConsoleKey.RightArrow)
-				PomeriDesno();
-			else if (cki.Key == ConsoleKey.Escape)
-				meni = true;
-		} while (meni != true  && cki.Key != ConsoleKey.F1);
+      }
+			else if (taster.Key == ConsoleKey.LeftArrow)
+      {
+        PomeriLevo();
+      }
+			else if (taster.Key == ConsoleKey.RightArrow)
+      {
+        PomeriDesno();
+      }	
+		} while(taster.Key != ConsoleKey.Enter);
 	}*/
 
   public static string Center(string unos)
@@ -115,7 +141,7 @@ class MainClass {
     IspisMenija();
   }
   
-  static void Meni()
+  /*static void Meni()
   {
     IspisMenija();
     if()
@@ -142,8 +168,7 @@ class MainClass {
     {
       Exit();
     }
-  }
-
+  }*/
   /*static void Iscrtaj_meni()
   {
     Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -157,20 +182,46 @@ class MainClass {
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ResetColor();
   }*/
+  /*public static void Create()
+  {
+
+  }
+
+  public static void Edit()
+  {
+
+  }
+
+  public static void Read()
+  {
+
+  }
+
+  public static void Save()
+  {
+
+  }
+
+  public static void SaveAs()
+  {
+
+  }
 
   public static void Exit()
   {
     kraj = true;
-  }
+  }*/
 
   public static void Main (string[] args) {
-    IspisMenija();        
+    IspisMenija();
+
+    OdaberiPolje();        
 
     
-    if(kraj = true)
+    /*if(kraj = true)
     {
       return;
-    }
+    }*/
 
   }
 }

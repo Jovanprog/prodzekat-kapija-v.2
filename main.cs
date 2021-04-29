@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 
 class MainClass {
   /*
@@ -6,7 +8,7 @@ class MainClass {
   static bool kraj = false;
   */
   static int kurX = 5;
-	static int kurY = 6;
+	static int kurY = 4;
   /*
   static int pocRed = 5;
 	static int pocKol = 6;
@@ -24,7 +26,7 @@ class MainClass {
 	}
   static void PomeriLevo()
 	{
-		if (kurX > 4)
+		if (kurX > 11)
 		{
 			kurX -= 11;
 			tablaX--;
@@ -63,6 +65,10 @@ class MainClass {
         PomeriDesno();
       }	
 		} while(taster.Key != ConsoleKey.Enter);
+    if(kurX == 5 && kurY == 4)
+    {
+      Create();  
+    }
 	}
 
 	/*static void KretanjeKrozTekst()
@@ -141,7 +147,9 @@ class MainClass {
     IspisMenija();
   }
   
-  /*static void Meni()
+  /*
+  //kod read i edit ispisati imena postojecih fajlova i uraditi selektovanje putem strelica
+  static void Meni()
   {
     IspisMenija();
     if()
@@ -169,35 +177,126 @@ class MainClass {
       Exit();
     }
   }*/
-  /*static void Iscrtaj_meni()
+  public static string [] imena_fajlova = {"asd.txt", "oaisfb","astolfo.txt"};
+  
+  public static void Create()
   {
-    Console.BackgroundColor = ConsoleColor.DarkBlue;
-        Console.ForegroundColor = ConsoleColor.White;
-        string naslov_1 = "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557";
-        string naslov_2 = "\u2551Text Editor\u2551";
-        string naslov_3 = "\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d";
-        Console.WriteLine("{0,100}", naslov_1);
-        Console.WriteLine("{0,100}", naslov_2);
-        Console.WriteLine("{0,100}", naslov_3);
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ResetColor();
+    Console.Clear();
+    Console.Write("Unesite ime fajla: ");
+    string ime_fajla = Console.ReadLine();
+
+    bool postoji_ime = true;
+    while(postoji_ime)
+    {
+      postoji_ime = false;
+      for(int i = 0; i < imena_fajlova.Length;i++)
+      {
+        if(ime_fajla == imena_fajlova[i])
+        {
+          Console.Write("Već postoji fajl sa upisanim imenom, pokušajte ponovo: ");
+          ime_fajla = Console.ReadLine();
+          postoji_ime = true;
+        }
+      }  
+    }
+        
+    Console.Write("Unesite ekstenziju fajla: ");
+    string ime_ekstenzije = Console.ReadLine();   
+    bool los_format_ekstenzije = true;
+    while(los_format_ekstenzije)
+    {
+      los_format_ekstenzije = false;
+      if(ime_ekstenzije[0] != '.') 
+      {
+        Console.WriteLine("Nepostojeca ekstenzija, upisite ponovo");
+        ime_ekstenzije = Console.ReadLine();
+        
+        los_format_ekstenzije = true;
+      }
+    }
+
+    ime_fajla += ime_ekstenzije;
+    FileStream fs = File.Open(ime_fajla, FileMode.Create);
+    /*if(ime_ekstenzije == ".bin")
+    {
+      TekstualniUnos();
+      //BinarniUnos();
+    }
+    else
+    {
+      TekstualniUnos(ime_fajla);
+    }
+    */
+    
+
+    Edit(fs);
+  }  
+  /*public static void TekstualniUnos(string ime_fajla)
+  {
+    StreamWriter Izlaz = new StreamWriter(ime_fajla);
+    string s;
+    while(unosi_tekst)
+    {
+      if() 
+      {
+        
+        unosi_tekst = false;
+      }
+      ////////////
+      s = Console.ReadLine();
+    }
+    while(!Izlaz.EndOfStream)
+    {
+      s = Izlaz.ReadLine();
+      Console.WriteLine(s);
+    }
+
+    Izlaz.Close();
   }*/
-  /*public static void Create()
+
+  
+  //imena_fajlova - imena postojecih fajlova
+
+
+  public static void Edit(FileStream ime_fajla)
   {
-
+    StreamReader ulaz = new StreamReader(ime_fajla);
+    StreamWriter izlaz = new StreamWriter(ime_fajla);
+    Console.WriteLine("niggaas");
+    while(!ulaz.EndOfStream)
+    {
+      red = ulaz.ReadLine();
+      Console.WriteLine(red);
+    }
   }
-
-  public static void Edit()
-  {
-
-  }
+  
 
   public static void Read()
   {
+    /*
+    for(int i = 0; i < imena_fajlova.Length;i++)
+    {
+      Console.WriteLine(imena_fajlova[i]);
+    }
+    */
+    
+    Console.WriteLine("Unesite ime fajla koji zelite da citate");
+    string ime_citanje = Console.ReadLine();
+    
+    if(File.Exists(ime_citanje))
+    {
+      StreamReader Ulaz = new StreamReader(ime_citanje);
+      do{
+        string red = Ulaz.ReadLine();
+        Console.WriteLine(red);
 
+      }while(!Ulaz.EndOfStream);
+       
+      Ulaz.Close();    
+    }
   }
 
-  public static void Save()
+  /*public static void Save()
   {
 
   }
@@ -213,6 +312,7 @@ class MainClass {
   }*/
 
   public static void Main (string[] args) {
+    Console.Clear();
     IspisMenija();
 
     OdaberiPolje();        
@@ -225,3 +325,19 @@ class MainClass {
 
   }
 }
+
+
+
+/*static void Iscrtaj_meni()
+  {
+    Console.BackgroundColor = ConsoleColor.DarkBlue;
+        Console.ForegroundColor = ConsoleColor.White;
+        string naslov_1 = "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557";
+        string naslov_2 = "\u2551Text Editor\u2551";
+        string naslov_3 = "\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d";
+        Console.WriteLine("{0,100}", naslov_1);
+        Console.WriteLine("{0,100}", naslov_2);
+        Console.WriteLine("{0,100}", naslov_3);
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ResetColor();
+  }*/

@@ -18,7 +18,7 @@ class MainClass {
 
   static void PomeriDesno()
 	{
-		if (kurX < 55) 
+		if (kurX < 70) 
 		{
 			kurX += 11;
 			tablaX++;
@@ -68,6 +68,30 @@ class MainClass {
     if(kurX == 5 && kurY == 4)
     {
       Create();  
+    }
+    else if(kurX == 16 && kurY == 4)
+    {
+      Edit();  
+    }
+    else if(kurX == 27 && kurY == 4)
+    {
+      Read();  
+    }
+    else if(kurX == 38 && kurY == 4)
+    {
+      Delete();  
+    }
+    else if(kurX == 49 && kurY == 4)
+    {
+      Save();  
+    }
+    else if(kurX == 60 && kurY == 4)
+    {
+      SaveAs();  
+    }
+    else
+    {
+      Exit();  
     }
 	}
 
@@ -141,6 +165,53 @@ class MainClass {
         Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
   }
 
+
+  public static void IspisMenija2()
+  {
+        string naslov_1 = "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557";
+        string naslov_2 = "\u2551Text Editor\u2551";
+        string naslov_3 = "\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d";
+        
+        Console.WriteLine("{0,46}", naslov_1);
+        Console.WriteLine("{0,46}", naslov_2);
+        Console.WriteLine("{0,46}", naslov_3);
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ResetColor();
+
+
+
+        Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2565\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
+
+        Console.Write("\u2551  Create  \u2551   Edit   \u2551   Read   \u2551");
+        
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.Write("  Delete  ");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("\u2551");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("   Save   ");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("\u2551");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Write("  Save As ");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("\u2551");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("   Exit   ");
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("\u2551");
+        Console.ResetColor();
+        Console.WriteLine();
+        Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2568\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
+  }
+
   static void UlazUMeni()
   {
     
@@ -166,6 +237,14 @@ class MainClass {
     }
     else if()
     {
+      Back();
+    }
+    else if()
+    {
+      Delete();
+    }
+    else if()
+    {
       Save();
     }
     else if()
@@ -177,12 +256,11 @@ class MainClass {
       Exit();
     }
   }*/
-  public static string [] imena_fajlova = {"asd.txt", "oaisfb","astolfo.txt"};
+  public static string [] imena_fajlova = {"asd", "oaisfb","astolfo"};
   
   public static void Create()
   {
-    Console.Clear();
-    Console.Write("Unesite ime fajla: ");
+    Console.Write("Unesite ime fajla BEZ EKSTENZIJE MOLICU KHM KHM: ");
     string ime_fajla = Console.ReadLine();
 
     bool postoji_ime = true;
@@ -199,23 +277,28 @@ class MainClass {
         }
       }  
     }
-        
-    Console.Write("Unesite ekstenziju fajla: ");
-    string ime_ekstenzije = Console.ReadLine();   
-    bool los_format_ekstenzije = true;
-    while(los_format_ekstenzije)
-    {
-      los_format_ekstenzije = false;
-      if(ime_ekstenzije[0] != '.') 
-      {
-        Console.WriteLine("Nepostojeca ekstenzija, upisite ponovo");
-        ime_ekstenzije = Console.ReadLine();
-        
-        los_format_ekstenzije = true;
-      }
-    }
+    
+    //string ekstenzija = ime_fajla.Substring(ime_fajla.Length-5, 4);
 
-    ime_fajla += ime_ekstenzije;
+    /*if(ekstenzija != ".txt")
+    {
+      Console.Write("Unesite ekstenziju fajla: ");
+      string ime_ekstenzije = Console.ReadLine();   
+      bool los_format_ekstenzije = true;
+      while(los_format_ekstenzije)
+      {
+        los_format_ekstenzije = false;
+        if(ime_ekstenzije[0] != '.') 
+        {
+          Console.WriteLine("Nepostojeca ekstenzija, upisite ponovo");
+          ime_ekstenzije = Console.ReadLine();
+        
+          los_format_ekstenzije = true;
+        } 
+      }
+    }*/
+
+    ime_fajla += ".txt";
     FileStream fs = File.Open(ime_fajla, FileMode.Create);
     /*if(ime_ekstenzije == ".bin")
     {
@@ -258,11 +341,59 @@ class MainClass {
   //imena_fajlova - imena postojecih fajlova
 
 
-  public static void Edit(FileStream ime_fajla)
+//EDIT--------------------------------------------------------------------------------
+  public static void IspisImenaFajlova(string[] imena_fajlova)
   {
+    bool prvi=true;
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write("Dostupni fajlovi: ");
+    Console.ResetColor();
+    foreach(string a in imena_fajlova)
+    {
+      if(prvi)
+      {
+        prvi = false;
+        Console.WriteLine("{0}", a);
+      }
+      else
+      {
+        Console.WriteLine("{                  0}", a);
+      }
+    }
+  }
+
+
+  public static string BiranjeImenaFajlova(string[] imena_fajlova)
+  {
+    string ime_fajla;
+    bool postoji_fajl=true;
+
+    do{
+      if(!postoji_fajl) Console.WriteLine("Traženi fajl ne postoji, pokušajte ponovo: ");
+      ime_fajla = Console.ReadLine();
+      postoji_fajl = false;
+
+      foreach(string a in imena_fajlova)
+      {
+        if(ime_fajla == a)
+        {
+          postoji_fajl = true;
+          break;
+        }
+      }
+    }while(!postoji_fajl);
+  }
+  public static void Edit()
+  {
+
+    //Ispis imena Fajlova
+    IspisImenaFajlova(imena_fajlova);
+    Console.WriteLine("Unesite ime fajla koji želite izmeniti: ");
+    string ime_fajla = BiranjeImenaFajlova(imena_fajlova);
     StreamReader ulaz = new StreamReader(ime_fajla);
     StreamWriter izlaz = new StreamWriter(ime_fajla);
-    Console.WriteLine("niggaas");
+
+    string red;
     while(!ulaz.EndOfStream)
     {
       red = ulaz.ReadLine();
@@ -270,7 +401,33 @@ class MainClass {
     }
   }
   
+//DELETE--------------------------------------------------------------------------------
+  public static void Delete()
+  {
+    IspisImenaFajlova(imena_fajlova);
+    Console.WriteLine("Unesite ime fajla koji želite obrisati: ");
+    string ime_fajla = BiranjeImenaFajlova(imena_fajlova);
 
+
+  }
+//SAVE----------------------------------------------------------------------------------
+  public static void Save()
+  {
+
+  }
+
+//SAVEAS--------------------------------------------------------------------------------
+  public static void SaveAs()
+  {
+    
+  }
+
+//EXIT----------------------------------------------------------------------------------
+  public static void Exit()
+  {
+    
+  }
+//READ----------------------------------------------------------------------------------
   public static void Read()
   {
     /*
@@ -313,7 +470,7 @@ class MainClass {
 
   public static void Main (string[] args) {
     Console.Clear();
-    IspisMenija();
+    IspisMenija2();
 
     OdaberiPolje();        
 

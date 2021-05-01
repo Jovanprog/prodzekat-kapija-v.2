@@ -244,7 +244,6 @@ class MainClass
       {
         if() 
         {
-
           unosi_tekst = false;
         }
         ////////////

@@ -11,8 +11,8 @@ class MainClass
     public static string ime_fajla="";
 
     //KRETANJE-----------------------------------------------------------------------------
-    static int kurX = 5;
-    static int kurY = 4;
+    public static int kurX = 5;
+    public static int kurY = 4;
     /*
     static int pocRed = 5;
       static int pocKol = 6;
@@ -185,6 +185,15 @@ class MainClass
         IspisMenija2();
     }
 
+    public static void IspisTastera()
+    {
+      Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
+
+        Console.WriteLine("\u2551  Povratak na meni  \u2551");
+
+        Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
+    }
+
 
     //kod read i edit ispisati imena postojecih fajlova i uraditi selektovanje putem strelica
     //static void Meni()
@@ -323,18 +332,48 @@ class MainClass
 
         return ime_fajla;
     }
+    //POMERANJE KURSORA--------------------------------------------------------------------------------
+    public static void KursorGore()
+    {
+      if(Console.CursorTop > 6) Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop-1);
+      
+    }
+
+    public static void KursorDole(int tasterY1)
+    {
+      if(Console.CursorTop <= tasterY1) 
+      Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop+1);
+    }
+
+    public static void KursorLevo()
+    {
+      if(Console.CursorLeft>0)
+      {
+        Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop);
+      }
+    }
+
+    public static void KursorDesno(int duzina, int tasterX2)
+    {
+      if(Console.CursorLeft<duzina-1 || Console.CursorLeft<tasterX2)
+      {  
+        Console.SetCursorPosition(Console.CursorLeft+1, Console.CursorTop);
+      }
+    }
 
     public static void Edit()
     {
         string fajl_imena = "imena_fajlova.txt";
         string[] imena_fajlova = UcitajImenaFajlova(fajl_imena);
 
-        //Ispis imena Fajlova
         IspisImenaFajlova(imena_fajlova);
         Console.WriteLine();
         Console.WriteLine("Unesite ime fajla koji želite izmeniti: ");
         ime_fajla = BiranjeImenaFajlova(imena_fajlova);
         StreamReader ulaz = new StreamReader(ime_fajla);
+
+        Console.Clear();
+        IspisMenija2();
 
         int brojac=0;
         string red;
@@ -349,26 +388,72 @@ class MainClass
             brojac++;
         }
         Array.Resize(ref celi_tekst, brojac);
+
+        IspisTastera();
+
+        ValueTuple<Int32, Int32> koordinate_dugmeta = (Console.CursorLeft,Console.CursorTop);
+
+        int tasterX1=Console.CursorLeft, tasterX2=Console.CursorLeft+21;
+        int tasterY1=Console.CursorTop-1, tasterY2=Console.CursorTop-3;
+
+        Console.SetCursorPosition(0,6);
         ConsoleKeyInfo taster;
-
-        Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
-
-        Console.WriteLine("\u2551  Povratak na meni  \u2551");
-
-        Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
-
-        ValueTuple<Int32, Int32> koordinate_dugmeta = Console.GetCursorPosition();
-        while(true)
+        while (!(((taster = Console.ReadKey(true)).Key == ConsoleKey.Enter) && (Console.CursorTop >= tasterY2 && Console.CursorTop <= tasterY1) && (Console.CursorLeft >= tasterX1 && Console.CursorLeft <= tasterX2)))
         {
-
-        }
-        /*while (taster = )
-        {
-          if(taster.Key == ConsoleKey.Enter)
+          if(taster.Key == ConsoleKey.F1)
           {
-
+              int broj_reda = Console.CursorTop-6;
+              ConsoleKeyInfo taster_edit;
+              
+              while((taster_edit = Console.ReadKey(true)).Key != ConsoleKey.F1)
+              {
+                int broj_kolone = Console.CursorLeft;
+                if(taster_edit.Key == ConsoleKey.Backspace)
+                {
+                  celi_tekst[broj_reda].Remove(broj_kolone, 1);
+                  Console.SetCursorPosition(0, Console.CursorTop);
+                  Console.Write(new string(' ', Console.WindowWidth)); 
+                  Console.SetCursorPosition(0, Console.CursorTop-1);
+                  Console.Write(celi_tekst[broj_reda].ToString());
+                }
+                else if(taster_edit.Key == ConsoleKey.Enter)
+                {
+                  celi_tekst[broj_reda].Insert(broj_kolone, Console.ReadLine());
+                }
+              }
           }
-        }*/
+          else if(taster.Key == ConsoleKey.UpArrow)
+          {
+            KursorGore();
+          }
+          else if(taster.Key == ConsoleKey.DownArrow)
+          {
+            KursorDole(tasterY1);
+          }
+          else if(taster.Key == ConsoleKey.LeftArrow)
+          {
+            KursorLevo();
+          }
+          else if(taster.Key == ConsoleKey.RightArrow)
+          {
+            KursorDesno(celi_tekst[Console.CursorTop-6].ToString().Length,  tasterX2);
+          }
+        }
+
+        /*do
+        {
+            Console.SetCursorPosition(kurX, kurY);
+            taster = Console.ReadKey(true);
+
+            if (taster.Key == ConsoleKey.LeftArrow)
+            {
+                PomeriLevo();
+            }
+            else if (taster.Key == ConsoleKey.RightArrow)
+            {
+                PomeriDesno();
+            }
+        } while (taster.Key != ConsoleKey.Enter);*/
     }
 
     //READ----------------------------------------------------------------------------------
@@ -393,11 +478,7 @@ class MainClass
             Console.WriteLine(red);
         }
 
-        Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
-
-        Console.WriteLine("\u2551  Povratak na meni  \u2551");
-
-        Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
+        IspisTastera();
     }
 
     //DELETE--------------------------------------------------------------------------------
@@ -445,12 +526,6 @@ class MainClass
     //READ----------------------------------------------------------------------------------
     public static void Read1()
     {
-        /*
-        for(int i = 0; i < imena_fajlova.Length;i++)
-        {
-          Console.WriteLine(imena_fajlova[i]);
-        }
-        */
         Console.SetCursorPosition(0, 7);
         Console.WriteLine("Unesite ime fajla koji zelite da citate:");
         string ime_citanje = Console.ReadLine();

@@ -649,6 +649,8 @@ class MainClass
           Console.WriteLine(red);
         }
 
+        ulaz.Close();
+
         IspisNapomeneRead();
 
         IzlazMeni();

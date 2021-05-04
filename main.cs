@@ -481,21 +481,21 @@ class MainClass
     //POMERANJE KURSORA--------------------------------------------------------------------------------
     public static void KursorGore()
     {
-      if(Console.CursorTop > 16) Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop-1);
+      if(Console.CursorTop > 16) Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop-1);
       
     }
 
     public static void KursorDole(int visina)
     {
       if(Console.CursorTop < visina-1) 
-      Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop+1);
+      Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop+1);
     }
 
     public static void KursorLevo()
     {
       if(Console.CursorLeft>0)
       {
-        Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop);
+        Console.SetCursorPosition(Console.CursorLeft-2, Console.CursorTop);
       }
     }
 
@@ -503,7 +503,7 @@ class MainClass
     {
       if(Console.CursorLeft<duzina-1)
       {  
-        Console.SetCursorPosition(Console.CursorLeft+1, Console.CursorTop);
+        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop);
       }
     }
 
@@ -531,8 +531,6 @@ class MainClass
         bool prvi = true;
 
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine();
-        Console.WriteLine();
         Console.Write("Dostupni fajlovi: ");
         Console.ResetColor();
         foreach (string a in imena_fajlova)
@@ -767,7 +765,7 @@ class MainClass
       string[] imena_fajlova = UcitajImenaFajlova("imena_fajlova.txt");
       ime_fajla = ImeFajla(imena_fajlova);
       Save();
-
+      
       InicijazlizujTekst();
 
       IspisMenija2();

@@ -4,14 +4,10 @@ using System.Text;
 
 class MainClass
 {
-  
-    //U Editu dodaj da kada unosi novi tekst u red taj teks pise dole pa se prikaze u datom redu u samom tekstu
-
-
     //imena_fajlova - imena postojecih fajlova
     //GLOBALNE PROMENLJIVE-----------------------------------------------------------------
     //public string[] imena_fajlova = new string[100];
-    public static string ime_fajla="";
+    public static string ime_fajla = "";
     public static StringBuilder[] celi_tekst = new StringBuilder[100];
 
     //INICIJALIZACIJA TEKSTA---------------------------------------------------------------
@@ -267,7 +263,7 @@ class MainClass
 
     public static void IspisMenija2()
     {
-        Console.Clear();
+        
         string naslov_1 = "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557";
         string naslov_2 = "\u2551Text Editor\u2551";
         string naslov_3 = "\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d";
@@ -324,12 +320,12 @@ class MainClass
         Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
 
         Console.WriteLine("\u2551  Kako biste editovali željenu liniju, pritisnite taster F1         \u2551");
+        Console.WriteLine("\u2551  Kako biste izašli iz editovanja, ponovo pritisnite taster F1      \u2551");
         Console.WriteLine("\u2551  Kako biste obrisali željeni kakater, pritisnite taster Backspace  \u2551");
         Console.WriteLine("\u2551  Kako biste dodali željeni tekst, pritisnite taster Enter          \u2551");
         Console.WriteLine("\u2551  Kako biste zamenili željeni karakter, pritisnite taster Delete    \u2551");
         Console.WriteLine("\u2551  Kako biste se vratili na meni, pritisnite taster F2               \u2551");
         
-
 
         Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
         Console.WriteLine();
@@ -373,6 +369,7 @@ class MainClass
       while((taster = Console.ReadKey()).Key != ConsoleKey.F2)
       {
         Console.SetCursorPosition(0, Console.CursorTop);
+        
         ObrisiTrenutnuLiniju();
       }
     }
@@ -419,7 +416,6 @@ class MainClass
     {
         string[] imena_fajlova = UcitajImenaFajlova("imena_fajlova.txt");
 
-        Console.WriteLine();
         Console.WriteLine();
         Console.Write("Unesite ime fajla: ");
         ime_fajla = ImeFajla(imena_fajlova);
@@ -478,7 +474,7 @@ class MainClass
       Izlaz.Close();
     }*/
 
-    //POMERANJE KURSORA--------------------------------------------------------------------------------
+    /*//POMERANJE KURSORA--------------------------------------------------------------------------------
     public static void KursorGore()
     {
       if(Console.CursorTop > 16) Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop-1);
@@ -632,7 +628,7 @@ class MainClass
                 {
                   int x = Console.CursorLeft, y = Console.CursorTop; 
                   Console.SetCursorPosition(0, 14);
-                  Console.Write("Unesite teks koji želite da umetnete na datu poziciju: ");
+                  Console.Write("Unesite tekst koji želite da umetnete na datu poziciju: ");
                   celi_tekst[broj_reda].Insert(broj_kolone, Console.ReadLine());
                   Console.SetCursorPosition(x, y);
                   Console.SetCursorPosition(0, Console.CursorTop-1);
@@ -688,6 +684,202 @@ class MainClass
                 PomeriDesno();
             }
         } while (taster.Key != ConsoleKey.Enter);*/
+    //}
+
+    //POMERANJE KURSORA--------------------------------------------------------------------------------
+    public static void KursorGore()
+    {
+      if(Console.CursorTop > 6) Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop-1);
+      
+    }
+
+    public static void KursorDole(int visina)
+    {
+      if(Console.CursorTop < visina-1) 
+      Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop+1);
+    }
+
+    public static void KursorLevo()
+    {
+      if(Console.CursorLeft>0)
+      {
+        Console.SetCursorPosition(Console.CursorLeft-1, Console.CursorTop);
+      }
+    }
+
+    public static void KursorDesno(int duzina)
+    {
+      if(Console.CursorLeft<duzina-1)
+      {  
+        Console.SetCursorPosition(Console.CursorLeft+1, Console.CursorTop);
+      }
+    }
+
+    //EDIT--------------------------------------------------------------------------------
+
+    public static string[] UcitajImenaFajlova(string ime)
+    {
+        int i = 0;
+        string[] imena_fajlova = new string[100];
+        StreamReader ulaz = new StreamReader(ime);
+
+        while (!ulaz.EndOfStream)
+        {
+            imena_fajlova[i] = ulaz.ReadLine();
+            i++;
+        }
+        ulaz.Close();
+        Array.Resize(ref imena_fajlova, i);
+
+        return imena_fajlova;
+    }
+    public static void IspisImenaFajlova(string[] imena_fajlova)
+    {
+        bool prvi = true;
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("Dostupni fajlovi: ");
+        Console.ResetColor();
+        foreach (string a in imena_fajlova)
+        {
+            if (prvi)
+            {
+                prvi = false;
+                Console.WriteLine("{0}", a);
+            }
+            else
+            {
+                Console.WriteLine("                  {0}", a);
+            }
+        }
+    }
+
+    public static string BiranjeImenaFajlova(string[] imena_fajlova)
+    {
+        bool postoji_fajl = true;
+
+        do
+        {
+            if (!postoji_fajl) Console.WriteLine("Traženi fajl ne postoji, pokušajte ponovo: ");
+            ime_fajla = Console.ReadLine();
+            postoji_fajl = false;
+
+            foreach (string a in imena_fajlova)
+            {
+                if (ime_fajla == a)
+                {
+                    postoji_fajl = true;
+                    break;
+                }
+            }
+        } while (!postoji_fajl);
+
+        return ime_fajla;
+    }
+    
+
+    public static void Edit()
+    {
+        string fajl_imena = "imena_fajlova.txt";
+        string[] imena_fajlova = UcitajImenaFajlova(fajl_imena);
+
+        IspisImenaFajlova(imena_fajlova);
+        Console.WriteLine();
+        Console.WriteLine("Unesite ime fajla koji želite izmeniti: ");
+        ime_fajla = BiranjeImenaFajlova(imena_fajlova);
+        StreamReader ulaz = new StreamReader(ime_fajla);
+
+        Console.Clear();
+        IspisMenija2();
+
+        int brojac=0;
+        string red;
+        celi_tekst = new StringBuilder[100];
+
+        while (!ulaz.EndOfStream)
+        {
+            if(brojac == celi_tekst.Length-1) Array.Resize(ref celi_tekst, celi_tekst.Length*10);
+            red = ulaz.ReadLine();
+            celi_tekst[brojac] = new StringBuilder(red);
+            Console.WriteLine(red);
+            brojac++;
+        }
+        Array.Resize(ref celi_tekst, brojac);
+
+        IspisNapomene();
+
+        Console.SetCursorPosition(0,6);
+        ConsoleKeyInfo taster;
+        bool kraj_unosa=false;
+        //while (!(((taster = Console.ReadKey(true)).Key == ConsoleKey.Enter) && (Console.CursorTop <= tasterY2 && Console.CursorTop >= tasterY1) && (Console.CursorLeft >= tasterX1 && Console.CursorLeft <= tasterX2)))
+        while(!kraj_unosa)
+        {
+          taster = Console.ReadKey(true);
+          if(taster.Key == ConsoleKey.F1)
+          {
+              int broj_reda = Console.CursorTop-6;
+              ConsoleKeyInfo taster_edit;
+              
+              while((taster_edit = Console.ReadKey(true)).Key != ConsoleKey.F1)
+              {
+                int broj_kolone = Console.CursorLeft;
+                if(taster_edit.Key == ConsoleKey.Backspace)
+                {
+                  celi_tekst[broj_reda].Remove(broj_kolone, 1);
+                  Console.SetCursorPosition(0, Console.CursorTop);
+                  Console.Write(new string(' ', Console.WindowWidth)); 
+                  Console.SetCursorPosition(0, Console.CursorTop-1);
+                  Console.Write(celi_tekst[broj_reda].ToString());
+                }
+                else if(taster_edit.Key == ConsoleKey.Enter)
+                {
+                  int x = Console.CursorLeft, y = Console.CursorTop; 
+                  Console.SetCursorPosition(0, 14+brojac);
+                  Console.Write("Unesite tekst koji želite da umetnete na datu poziciju: ");
+                  celi_tekst[broj_reda].Insert(broj_kolone, Console.ReadLine());
+                  Console.SetCursorPosition(0, 14+brojac);
+                  ObrisiTrenutnuLiniju();
+                  Console.SetCursorPosition(x, y);
+                  Console.SetCursorPosition(0, Console.CursorTop);
+                  Console.Write(new string(' ', Console.WindowWidth)); 
+                  Console.SetCursorPosition(0, Console.CursorTop-1);
+                  Console.Write(celi_tekst[broj_reda].ToString());
+                }
+                else if(taster_edit.Key == ConsoleKey.Delete)
+                {
+                  celi_tekst[broj_reda].Remove(broj_kolone, 1);
+                  
+                  Console.SetCursorPosition(0, Console.CursorTop);
+                  Console.Write(new string(' ', Console.WindowWidth)); 
+                  Console.SetCursorPosition(0, Console.CursorTop-1);
+                  Console.Write(celi_tekst[broj_reda].ToString());
+                }
+              }
+          }
+          else if(taster.Key == ConsoleKey.UpArrow)
+          {
+            KursorGore();
+          }
+          else if(taster.Key == ConsoleKey.DownArrow)
+          {
+            KursorDole(celi_tekst.Length+6);
+          }
+          else if(taster.Key == ConsoleKey.LeftArrow)
+          {
+            KursorLevo();
+          }
+          else if(taster.Key == ConsoleKey.RightArrow)
+          {
+            KursorDesno(celi_tekst[Console.CursorTop-6].ToString().Length);
+          }
+          else if(taster.Key == ConsoleKey.F2)
+          {
+            kraj_unosa = true;
+          }
+        }
+
+        IspisMenija2();
+        OdaberiPolje();
     }
 
     //READ----------------------------------------------------------------------------------
@@ -705,6 +897,11 @@ class MainClass
         ime_fajla = BiranjeImenaFajlova(imena_fajlova);
         StreamReader ulaz = new StreamReader(ime_fajla);
 
+        Console.Clear();
+        IspisMenija2();
+        Console.WriteLine();
+
+        Console.WriteLine();
         string red;
         while (!ulaz.EndOfStream)
         {
@@ -728,7 +925,28 @@ class MainClass
         IspisImenaFajlova(imena_fajlova);
         Console.WriteLine("Unesite ime fajla koji želite obrisati: ");
         ime_fajla = BiranjeImenaFajlova(imena_fajlova);
+        string kofa;
+        for(int i = 0; i < imena_fajlova.Length; i++)
+        {
+          if(ime_fajla == imena_fajlova[i])
+          {
+            kofa = imena_fajlova[i]; 
+            imena_fajlova[i] = imena_fajlova[imena_fajlova.Length-1];
+            imena_fajlova[imena_fajlova.Length-1] = kofa;
+          }
+        }
+        Array.Resize(ref imena_fajlova, imena_fajlova.Length-1);
+        StreamWriter brisac = new StreamWriter("imena_fajlova.txt");
+        for(int i = 0; i < imena_fajlova.Length; i++)
+        {
+          brisac.WriteLine(imena_fajlova[i]);
+        }
+        
+        brisac.Close();
 
+        File.Delete(ime_fajla);
+        IspisMenija2();
+        OdaberiPolje();
         //for prolazi kroz fajl imena_fajlova, nalazi dato ime i brise ga, a zatim brise i sam fajl
     }
     //SAVE----------------------------------------------------------------------------------
@@ -741,13 +959,16 @@ class MainClass
         fajl_ispis.WriteLine(celi_tekst[i].ToString());
       }
       fajl_ispis.Close();
-
+      Console.WriteLine("L");
       InicijazlizujTekst();
 
       IspisMenija2();
       OdaberiPolje();
     }
 
+    
+
+    
     //SAVEAS--------------------------------------------------------------------------------
     public static void SaveAs()
     {
@@ -788,7 +1009,7 @@ class MainClass
 
       Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
       Console.ResetColor();
-
+      Console.Beep();
       return;
     }
     //READ----------------------------------------------------------------------------------
@@ -819,7 +1040,7 @@ class MainClass
 
     public static void Main(string[] args)
     {
-        Console.Clear();
+        
         InicijazlizujTekst();
 
         IspisMenija2();
@@ -849,4 +1070,4 @@ class MainClass
         Console.WriteLine("{0,100}", naslov_3);
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ResetColor();
-  }*/
+  }*/ 

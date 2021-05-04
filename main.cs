@@ -764,9 +764,36 @@ class MainClass
     //EXIT----------------------------------------------------------------------------------
     public static void Exit()
     {
+
+      StreamReader ulaz = new StreamReader("imena_fajlova.txt");
+
+      int i=0;
+      string[] baci = new string[100];
+
+      while(!ulaz.EndOfStream)
+      {
+        if(i >= baci.Length) Array.Resize(ref baci, baci.Length*10);
+        baci[i] = ulaz.ReadLine();
+        i++;
+      }
+      ulaz.Close();
+      Array.Resize(ref baci, i);
+      
+      for(int k=0; k < baci.Length-1; k++)
+      {
+        if(baci[k] == baci[baci.Length-1])
+        {
+          StreamWriter izlaz = new StreamWriter("imena_fajlova.txt");
+          for(int j=0; j < baci.Length-1; j++)
+          {
+            izlaz.WriteLine(baci[j]);
+          }
+          izlaz.Close();
+          break;
+        }
+      }
       Console.Clear();
 
-      Console.ForegroundColor = ConsoleColor.Yellow;
       Console.WriteLine();
       Console.WriteLine();
       
@@ -775,7 +802,6 @@ class MainClass
       Console.WriteLine("\u2551  Hvala Vam na korišćenju Text editora!  \u2551");
 
       Console.WriteLine("\u2559\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u255C");
-      Console.Beep();
       return;
     }
     public static void Main(string[] args)

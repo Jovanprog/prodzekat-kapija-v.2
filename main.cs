@@ -83,8 +83,10 @@ class MainClass
           }
         } while (taster.Key != ConsoleKey.Enter);
 
+        //Create
         if (kurX == 5 && kurY == 4)
         {
+          //Provera da li je sacuvano
           if(!DaLiJeSacuvano())
           {
             ProveraSacuvanja();
@@ -96,8 +98,10 @@ class MainClass
             Create();
           }
         }
+        //Edit
         else if (kurX == 16 && kurY == 4)
         {
+          //Provera da li je sacuvano
           if(!DaLiJeSacuvano())
           {
             ProveraSacuvanja();
@@ -109,8 +113,10 @@ class MainClass
             Edit();
           }
         }
+        //Read
         else if (kurX == 27 && kurY == 4)
         {
+          //Provera da li je sacuvano
           if(!DaLiJeSacuvano())
           {
             ProveraSacuvanja();
@@ -122,8 +128,10 @@ class MainClass
             Read();
           }
         }
+        //Delete
         else if (kurX == 38 && kurY == 4)
         {
+          //Provera da li je sacuvano
           if(!DaLiJeSacuvano())
           {
             ProveraSacuvanja();
@@ -135,6 +143,7 @@ class MainClass
             Delete();
           }
         }
+        //Save
         else if (kurX == 49 && kurY == 4)
         {
           if(!PrazanTekst())
@@ -155,6 +164,7 @@ class MainClass
             OdaberiPolje();
           }
         }
+        //SaveAs
         else if (kurX == 60 && kurY == 4)
         {
           if(!PrazanTekst())
@@ -175,6 +185,7 @@ class MainClass
             OdaberiPolje();
           }
         }
+        //Exit
         else
         {
           Exit();
@@ -296,6 +307,7 @@ class MainClass
     {
       ConsoleKeyInfo taster;
 
+      //Zavrsetak koriscenja opicije koju su izabrali
       while((taster = Console.ReadKey()).Key != ConsoleKey.F2)
       {
         Console.SetCursorPosition(0, Console.CursorTop);
@@ -318,6 +330,8 @@ class MainClass
       string ime = Console.ReadLine();
 
       bool postoji_ime = true;
+
+      //Formatiranje imena teksta
       while (postoji_ime)
       {
         if(ime.Length <= 4 || (ime.Length >= 5 && ime.Substring(ime.Length-4, 4) != ".txt"))
@@ -327,6 +341,7 @@ class MainClass
 
         postoji_ime = false;
 
+        //Provera validnosti imena teksta
         for (int i = 0; i < imena_fajlova.Length; i++)
         {
           if (ime == imena_fajlova[i])
@@ -360,7 +375,7 @@ class MainClass
 
       celi_tekst[0] = new StringBuilder(" ");
 
-
+      //Upis lokalno
       while(true)
       {
         if(br >= celi_tekst.Length)
@@ -379,8 +394,6 @@ class MainClass
       if(br != 0) Array.Resize(ref celi_tekst, br);
       else Array.Resize(ref celi_tekst, 1);
       
-
-
       IzlazMeni();
       
       IspisMenija2();
@@ -433,6 +446,7 @@ class MainClass
       string[] imena_fajlova = new string[100];
       StreamReader ulaz = new StreamReader(ime);
 
+      //Ucitavanje iz fajla imena
       while (!ulaz.EndOfStream)
       {
           imena_fajlova[i] = ulaz.ReadLine();
@@ -443,6 +457,7 @@ class MainClass
 
       return imena_fajlova;
     }
+
     public static void IspisImenaFajlova(string[] imena_fajlova)
     {
       bool prvi = true;
@@ -450,6 +465,7 @@ class MainClass
       Console.ForegroundColor = ConsoleColor.Green;
       Console.Write("Dostupni fajlovi: ");
       Console.ResetColor();
+
       foreach (string a in imena_fajlova)
       {
           if (prvi)
@@ -500,6 +516,7 @@ class MainClass
         string fajl_imena = "imena_fajlova.txt";
         string[] imena_fajlova = UcitajImenaFajlova(fajl_imena);
 
+        //Ispisi pre rada programa
         IspisImenaFajlova(imena_fajlova);
         Console.WriteLine();
         Console.WriteLine("Ukoliko želite da se vratite na meni pritisnite Enter.");
@@ -515,6 +532,7 @@ class MainClass
         string red;
         celi_tekst = new StringBuilder[100];
 
+        //Ucitavanje teksta iz fajla trazenog teksta
         while (!ulaz.EndOfStream)
         {
             if(brojac == celi_tekst.Length-1) Array.Resize(ref celi_tekst, celi_tekst.Length*10);
@@ -533,6 +551,7 @@ class MainClass
         ConsoleKeyInfo taster;
         bool kraj_unosa=false;
 
+        //Glavna petlja za editovanje
         while(!kraj_unosa)
         {
           taster = Console.ReadKey(true);
@@ -562,22 +581,26 @@ class MainClass
           }
           else if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length == 1)
           {
-            celi_tekst[broj_reda].Remove(broj_kolone, 1);
-            celi_tekst[broj_reda].Insert(0," ");
-            int cuvanje = Console.CursorLeft;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth)); 
-            Console.SetCursorPosition(0, Console.CursorTop-1);
-            Console.Write(celi_tekst[broj_reda].ToString());
 
-            if(cuvanje == celi_tekst[broj_reda].ToString().Length)
+            for(int i=broj_reda; i < celi_tekst.Length-1; i++)
             {
-              Console.SetCursorPosition(cuvanje-1, Console.CursorTop);
+              celi_tekst[i] = celi_tekst[i+1];
             }
-            else
+            int y = Console.CursorTop;
+
+            Array.Resize(ref celi_tekst, celi_tekst.Length-1);
+            Console.Clear();
+            IspisMenija2();
+
+            for(int i=0; i < celi_tekst.Length; i++)
             {
-              Console.SetCursorPosition(cuvanje, Console.CursorTop);
+              Console.WriteLine(celi_tekst[i].ToString());
             }
+
+            IspisNapomene();
+            if(broj_reda == 0) Console.SetCursorPosition(0, y);
+            else Console.SetCursorPosition(0, y-1);
+
           }
           //Dodaj tekst
           else if(taster.Key == ConsoleKey.Enter)
@@ -641,7 +664,6 @@ class MainClass
             {
               celi_tekst[i] = celi_tekst[i-1];
             }
-            //Console.Write("AAAA");
 
             int x = Console.CursorLeft, y = Console.CursorTop; 
             Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
@@ -654,12 +676,6 @@ class MainClass
 
             celi_tekst[broj_reda+1] = new StringBuilder(novi_red);
             red_za_unosenje_teksta++;
-
-            /*for(int i=Console.CursorTop; i >= red_za_unosenje_teksta + brojac; i--)
-            {
-              Console.SetCursorPosition(0, i);
-              ObrisiTrenutnuLiniju();
-            }*/
 
             Console.Clear();
             IspisMenija2();
@@ -698,6 +714,7 @@ class MainClass
           }
         }
 
+        //Izlaz u glavni meni
         IspisMenija2();
         OdaberiPolje();
     }
@@ -736,6 +753,8 @@ class MainClass
 
       IspisNapomeneRead();
 
+
+      //Izlaz u glavni meni
       IzlazMeni();
       
       IspisMenija2();
@@ -775,6 +794,8 @@ class MainClass
       brisac.Close();
 
       File.Delete(ime_fajla);
+
+      //Izlaz u glavni meni
       IspisMenija2();
       OdaberiPolje();
     }
@@ -791,6 +812,7 @@ class MainClass
       fajl_ispis.Close();
       InicijazlizujTekst();
 
+      //Izlaz u glavni meni
       IspisMenija2();
       OdaberiPolje();
     }
@@ -837,6 +859,7 @@ class MainClass
       upisi_novo_ime.WriteLine(ime_fajla);
       upisi_novo_ime.Close();
 
+      //Izlaz u glavni meni
       IspisMenija2();
       OdaberiPolje();
     }
@@ -844,12 +867,13 @@ class MainClass
     //EXIT----------------------------------------------------------------------------------
     public static void Exit()
     {
-
+      
       StreamReader ulaz = new StreamReader("imena_fajlova.txt");
 
       int i = 0;
       string[] baci = new string[100];
 
+      //Provera validnosti imena fajlova teksta
       while(!ulaz.EndOfStream)
       {
         if(i >= baci.Length) Array.Resize(ref baci, baci.Length*10);
@@ -887,13 +911,9 @@ class MainClass
     }
     public static void Main(string[] args)
     {
-      for(int i = 0; i < 10; i++)
-      {
-        Console.Beep();
-      }
-      
       Console.Clear();
       InicijazlizujTekst();
+
       IspisMenija2();
       OdaberiPolje();
     }

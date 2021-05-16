@@ -5,3 +5,5 @@ jovan.txt
 JA.txt
 gg.txt
 aaaaaaaa.txt
+.txt
+aa.txt

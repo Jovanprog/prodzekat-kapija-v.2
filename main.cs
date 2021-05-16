@@ -253,6 +253,7 @@ class MainClass
 
      
       Console.WriteLine("\u2551  Kako biste obrisali željeni kakater, pritisnite taster Backspace  \u2551");
+      Console.WriteLine("\u2551  Kako biste dodali red tekstu, pritisnite taster Space             \u2551");
       Console.WriteLine("\u2551  Kako biste dodali željeni tekst, pritisnite taster Enter          \u2551");
       Console.WriteLine("\u2551  Kako biste zamenili željeni karakter, pritisnite taster Delete    \u2551");
       Console.WriteLine("\u2551  Kako biste se vratili na meni, pritisnite taster F2               \u2551");
@@ -510,7 +511,7 @@ class MainClass
         Console.Clear();
         IspisMenija2();
 
-        int brojac = 0, red_za_unosenje_teksta=14;
+        int brojac = 0, red_za_unosenje_teksta=15;
         string red;
         celi_tekst = new StringBuilder[100];
 
@@ -531,6 +532,7 @@ class MainClass
         Console.SetCursorPosition(0,6);
         ConsoleKeyInfo taster;
         bool kraj_unosa=false;
+
         while(!kraj_unosa)
         {
           taster = Console.ReadKey(true);
@@ -540,7 +542,7 @@ class MainClass
           //Opcije editovanja
 
           //Obrisi karakter
-          if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length != 0)
+          if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length != 1)
           {
             celi_tekst[broj_reda].Remove(broj_kolone, 1);
             int cuvanje = Console.CursorLeft;
@@ -548,7 +550,34 @@ class MainClass
             Console.Write(new string(' ', Console.WindowWidth)); 
             Console.SetCursorPosition(0, Console.CursorTop-1);
             Console.Write(celi_tekst[broj_reda].ToString());
-            Console.SetCursorPosition(cuvanje, Console.CursorTop);
+
+            if(cuvanje == celi_tekst[broj_reda].ToString().Length)
+            {
+              Console.SetCursorPosition(cuvanje-1, Console.CursorTop);
+            }
+            else
+            {
+              Console.SetCursorPosition(cuvanje, Console.CursorTop);
+            }
+          }
+          else if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length == 1)
+          {
+            celi_tekst[broj_reda].Remove(broj_kolone, 1);
+            celi_tekst[broj_reda].Insert(0," ");
+            int cuvanje = Console.CursorLeft;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth)); 
+            Console.SetCursorPosition(0, Console.CursorTop-1);
+            Console.Write(celi_tekst[broj_reda].ToString());
+
+            if(cuvanje == celi_tekst[broj_reda].ToString().Length)
+            {
+              Console.SetCursorPosition(cuvanje-1, Console.CursorTop);
+            }
+            else
+            {
+              Console.SetCursorPosition(cuvanje, Console.CursorTop);
+            }
           }
           //Dodaj tekst
           else if(taster.Key == ConsoleKey.Enter)
@@ -608,33 +637,40 @@ class MainClass
             int cuvanje = Console.CursorLeft;
             Array.Resize(ref celi_tekst, celi_tekst.Length+1);
 
-            for(int i=broj_reda+1; i < celi_tekst.Length; i++)
+            for(int i=celi_tekst.Length-1; i > broj_reda+1; i--)
             {
               celi_tekst[i] = celi_tekst[i-1];
             }
+            //Console.Write("AAAA");
 
             int x = Console.CursorLeft, y = Console.CursorTop; 
             Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
 
             //Unos ispod napomena
-            Console.Write("Unesite tekst koji želite da Bude upisan u novi red tekstualnog fajla: ");
+            Console.Write("Unesite tekst koji želite da bude upisan u novi red (ispod trenutnog reda) tekstualnog fajla: ");
             string novi_red = Console.ReadLine();
-          
-            celi_tekst[broj_reda] = new StringBuilder(novi_red);
+
+            if(novi_red == "") novi_red = " ";
+
+            celi_tekst[broj_reda+1] = new StringBuilder(novi_red);
             red_za_unosenje_teksta++;
 
-            for(int i=Console.CursorTop; i >= red_za_unosenje_teksta + brojac; i--)
+            /*for(int i=Console.CursorTop; i >= red_za_unosenje_teksta + brojac; i--)
             {
               Console.SetCursorPosition(0, i);
               ObrisiTrenutnuLiniju();
+            }*/
+
+            Console.Clear();
+            IspisMenija2();
+
+            for(int i=0; i < celi_tekst.Length; i++)
+            {
+              Console.WriteLine(celi_tekst[i].ToString());
             }
-            Console.SetCursorPosition(x+1, y);
-            
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth)); 
-            Console.SetCursorPosition(0, Console.CursorTop-1);
-            Console.Write(celi_tekst[broj_reda].ToString());
-            Console.SetCursorPosition(cuvanje, Console.CursorTop);
+
+            IspisNapomene();
+            Console.SetCursorPosition(0, y+1);
           }
           //Kretanje gore
           else if(taster.Key == ConsoleKey.UpArrow)

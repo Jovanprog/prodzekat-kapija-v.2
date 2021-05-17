@@ -344,6 +344,12 @@ class MainClass
         //Provera validnosti imena teksta
         for (int i = 0; i < imena_fajlova.Length; i++)
         {
+          if(ime == "imena_fajlova.txt")
+          {
+            Console.Error.Write("Nevalidno ime fajla, pokušajte ponovo: ");
+            ime = Console.ReadLine();
+            postoji_ime = true;
+          }
           if (ime == imena_fajlova[i])
           {
             Console.Error.Write("Već postoji fajl sa upisanim imenom, pokušajte ponovo: ");
@@ -478,6 +484,7 @@ class MainClass
               Console.WriteLine("                  {0}", a);
           }
       }
+      Console.WriteLine();
     }
 
     public static string BiranjeImenaFajlova(string[] imena_fajlova)
@@ -554,6 +561,10 @@ class MainClass
         //Glavna petlja za editovanje
         while(!kraj_unosa)
         {
+          if(celi_tekst.Length == 0 && celi_tekst[0].ToString().Length == 0)
+          {
+            IzlazMeni();
+          }
           taster = Console.ReadKey(true);
           int broj_reda = Console.CursorTop-6;
           int broj_kolone = Console.CursorLeft;
@@ -563,6 +574,8 @@ class MainClass
           //Obrisi karakter
           if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length != 1)
           {
+            if(celi_tekst.Length == 1 && celi_tekst[0].ToString().Length == 0) continue;
+
             celi_tekst[broj_reda].Remove(broj_kolone, 1);
             int cuvanje = Console.CursorLeft;
             Console.SetCursorPosition(0, Console.CursorTop);
@@ -581,6 +594,7 @@ class MainClass
           }
           else if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length == 1)
           {
+            if(celi_tekst.Length == 1 && celi_tekst[0].ToString().Length == 1) continue;
 
             for(int i=broj_reda; i < celi_tekst.Length-1; i++)
             {

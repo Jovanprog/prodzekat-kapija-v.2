@@ -294,7 +294,7 @@ class MainClass
       Console.WriteLine();
       
       Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
-
+      Console.WriteLine("\u2551  Red mora sadržati manje od 81 karaktera, inače se red deli                 \u2551");
       Console.WriteLine("\u2551  Kako biste se zavrsili sa pisanjem teksta, dvaput pritisnite taster Enter  \u2551");
       Console.WriteLine("\u2551  Kako biste se vratili na meni, pritisnite taster F2                        \u2551");
 
@@ -372,6 +372,7 @@ class MainClass
 
       IspisNapomeneCreate();
 
+      //Upis imena fajla u imena_fajlova
       StreamWriter upisi_novo_ime = new StreamWriter("imena_fajlova.txt", true);
       upisi_novo_ime.WriteLine(ime_fajla);
       upisi_novo_ime.Close();
@@ -390,11 +391,27 @@ class MainClass
         } 
         red = Console.ReadLine();
 
+
         //kraj unosa
         if(red == "") break;
 
-        celi_tekst[br] = new StringBuilder(red);
-        br++;
+        int maksimalna_duzina_trenutnog_reda=80;
+
+        if(red.Length > maksimalna_duzina_trenutnog_reda)
+        {
+          for(int i=0; i < red.Length; i+=80)
+          {
+            if(red.Length - i < 80) celi_tekst[br] = new StringBuilder(red.Substring(i, red.Length-i));
+            else celi_tekst[br] = new StringBuilder(red.Substring(i, 80));
+            
+            br++;
+          }
+        }
+        else
+        {
+          celi_tekst[br] = new StringBuilder(red);
+          br++;
+        }
       }
 
       if(br != 0) Array.Resize(ref celi_tekst, br);
@@ -624,17 +641,37 @@ class MainClass
             int x = Console.CursorLeft, y = Console.CursorTop; 
             Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
 
-            Console.Write("Unesite tekst koji želite da umetnete na datu poziciju: ");
-            celi_tekst[broj_reda].Insert(broj_kolone, Console.ReadLine());
-            Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
-            ObrisiTrenutnuLiniju();
-            Console.SetCursorPosition(x, y);
+            Console.WriteLine("Unesite tekst koji želite da umetnete na datu poziciju: ");
+            string novi_tekst = Console.ReadLine();
 
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth)); 
-            Console.SetCursorPosition(0, Console.CursorTop-1);
-            Console.Write(celi_tekst[broj_reda].ToString());
-            Console.SetCursorPosition(cuvanje, Console.CursorTop);
+            if(celi_tekst[broj_reda].ToString().Length + novi_tekst.Length > 80)
+            {
+              Console.Clear();
+              IspisMenija2();
+
+              for(int i=0; i < celi_tekst.Length; i++)
+              {
+                Console.WriteLine(celi_tekst[i].ToString());
+              }
+
+              IspisNapomene();
+              Console.SetCursorPosition(0, y);
+            }
+            else
+            {
+              celi_tekst[broj_reda].Insert(broj_kolone, novi_tekst);
+              Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
+              ObrisiTrenutnuLiniju();
+              Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac+1);
+              ObrisiTrenutnuLiniju();
+              Console.SetCursorPosition(x, y);
+
+              Console.SetCursorPosition(0, Console.CursorTop);
+              Console.Write(new string(' ', Console.WindowWidth)); 
+              Console.SetCursorPosition(0, Console.CursorTop-1);
+              Console.Write(celi_tekst[broj_reda].ToString());
+              Console.SetCursorPosition(cuvanje, Console.CursorTop);
+            }
           }
           //Zameni karakter
           else if(taster.Key == ConsoleKey.Delete)

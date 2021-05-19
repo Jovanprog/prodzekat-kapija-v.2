@@ -188,7 +188,15 @@ class MainClass
         //Exit
         else
         {
-          Exit();
+          //Provera da li je sacuvano
+          if(!DaLiJeSacuvano())
+          {
+            ProveraSacuvanja();
+          }
+          else
+          {
+            Exit();
+          }
         }
     }
 
@@ -262,7 +270,7 @@ class MainClass
 
       Console.WriteLine("\u2553\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2556");
 
-     
+      Console.WriteLine("\u2551  Ako red ima dužinu veću od 80 karaktera, neće biti forirmiran     \u2551");
       Console.WriteLine("\u2551  Kako biste obrisali željeni kakater, pritisnite taster Backspace  \u2551");
       Console.WriteLine("\u2551  Kako biste dodali red tekstu, pritisnite taster Space             \u2551");
       Console.WriteLine("\u2551  Kako biste dodali željeni tekst, pritisnite taster Enter          \u2551");
@@ -463,6 +471,7 @@ class MainClass
 
     //EDIT--------------------------------------------------------------------------------
 
+    //UCITAVANJE IMENA--------------------------------------------------------------------
     public static string[] UcitajImenaFajlova(string ime)
     {
       int i = 0;
@@ -534,7 +543,29 @@ class MainClass
         return ime;
     }
     
+    //NOVI ISPIS EDITA--------------------------------------------------------------------
+    public static void NoviIspisEdita()
+    {
+      Console.Clear();
+      IspisMenija2();
 
+      for(int i=0; i < celi_tekst.Length; i++)
+      {
+        Console.WriteLine(celi_tekst[i].ToString());
+      }
+    }
+
+    //DODAJ ISPIS TEKSTA------------------------------------------------------------------
+    public static void DodajIspisTeksta(int broj_reda, int cuvanje)
+    {
+      Console.SetCursorPosition(0, Console.CursorTop);
+      Console.Write(new string(' ', Console.WindowWidth)); 
+      Console.SetCursorPosition(0, Console.CursorTop-1);
+      Console.Write(celi_tekst[broj_reda].ToString());
+      Console.SetCursorPosition(cuvanje, Console.CursorTop);
+    }
+
+    //EDIT--------------------------------------------------------------------------------
     public static void Edit()
     {
         string fajl_imena = "imena_fajlova.txt";
@@ -571,6 +602,7 @@ class MainClass
 
         IspisNapomene();
 
+        //Inicijalizacija edita
         Console.SetCursorPosition(0,6);
         ConsoleKeyInfo taster;
         bool kraj_unosa=false;
@@ -609,6 +641,7 @@ class MainClass
               Console.SetCursorPosition(cuvanje, Console.CursorTop);
             }
           }
+          //Brisanje reda kada u trenutnom redu više nema karkatera
           else if(taster.Key == ConsoleKey.Backspace && celi_tekst[broj_reda].ToString().Length == 1)
           {
             if(celi_tekst.Length == 1 && celi_tekst[0].ToString().Length == 1) continue;
@@ -666,11 +699,7 @@ class MainClass
               ObrisiTrenutnuLiniju();
               Console.SetCursorPosition(x, y);
 
-              Console.SetCursorPosition(0, Console.CursorTop);
-              Console.Write(new string(' ', Console.WindowWidth)); 
-              Console.SetCursorPosition(0, Console.CursorTop-1);
-              Console.Write(celi_tekst[broj_reda].ToString());
-              Console.SetCursorPosition(cuvanje, Console.CursorTop);
+              DodajIspisTeksta(broj_reda, cuvanje);
             }
           }
           //Zameni karakter
@@ -700,22 +729,12 @@ class MainClass
             }
             Console.SetCursorPosition(x, y);
             
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth)); 
-            Console.SetCursorPosition(0, Console.CursorTop-1);
-            Console.Write(celi_tekst[broj_reda].ToString());
-            Console.SetCursorPosition(cuvanje, Console.CursorTop);
+            DodajIspisTeksta(broj_reda, cuvanje);
           }
           //Novi red teksta
           else if(taster.Key == ConsoleKey.Spacebar)
           {
             int cuvanje = Console.CursorLeft;
-            Array.Resize(ref celi_tekst, celi_tekst.Length+1);
-
-            for(int i=celi_tekst.Length-1; i > broj_reda+1; i--)
-            {
-              celi_tekst[i] = celi_tekst[i-1];
-            }
 
             int x = Console.CursorLeft, y = Console.CursorTop; 
             Console.SetCursorPosition(0, red_za_unosenje_teksta + brojac);
@@ -724,21 +743,30 @@ class MainClass
             Console.Write("Unesite tekst koji želite da bude upisan u novi red (ispod trenutnog reda) tekstualnog fajla: ");
             string novi_red = Console.ReadLine();
 
-            if(novi_red == "") novi_red = " ";
-
-            celi_tekst[broj_reda+1] = new StringBuilder(novi_red);
-            red_za_unosenje_teksta++;
-
-            Console.Clear();
-            IspisMenija2();
-
-            for(int i=0; i < celi_tekst.Length; i++)
+            //Provera validnosti unosa reda, da li je duzi od 80 karaktera
+            if(novi_red.Length > 80)
             {
-              Console.WriteLine(celi_tekst[i].ToString());
+              NoviIspisEdita();
+              IspisNapomene();
+              Console.SetCursorPosition(x, y);
             }
+            else
+            {
+              Array.Resize(ref celi_tekst, celi_tekst.Length+1);
 
-            IspisNapomene();
-            Console.SetCursorPosition(0, y+1);
+              for(int i=celi_tekst.Length-1; i > broj_reda+1; i--)
+              {
+                celi_tekst[i] = celi_tekst[i-1];
+              }
+              if(novi_red == "") novi_red = " ";
+
+              celi_tekst[broj_reda+1] = new StringBuilder(novi_red);
+              red_za_unosenje_teksta++;
+
+              NoviIspisEdita();
+              IspisNapomene();
+              Console.SetCursorPosition(0, y+1);
+            }
           }
           //Kretanje gore
           else if(taster.Key == ConsoleKey.UpArrow)
@@ -824,7 +852,6 @@ class MainClass
       Console.WriteLine("Unesite ime fajla koji želite obrisati: ");
       
       ime_fajla = BiranjeImenaFajlova(imena_fajlova);
-      
 
       string kofa;
       for(int i = 0; i < imena_fajlova.Length; i++)

@@ -654,6 +654,7 @@ class MainClass
 
             Array.Resize(ref celi_tekst, celi_tekst.Length-1);
             red_za_unosenje_teksta--;
+            
             Console.Clear();
             IspisMenija2();
 

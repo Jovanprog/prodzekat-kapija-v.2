@@ -680,9 +680,40 @@ class MainClass
 
             if(celi_tekst[broj_reda].ToString().Length + novi_tekst.Length > 80)
             {
+              for(int i=0; i < 100; i++)
+              {
+                Console.Beep();
+              }
               Console.Clear();
               IspisMenija2();
 
+              string red_tr = celi_tekst[broj_reda].ToString().Substring(0, x) + novi_tekst + celi_tekst[broj_reda].ToString().Substring(x, celi_tekst[broj_reda].ToString().Length - x);
+              int duzina_reda = red_tr.Length;
+
+              int brojac_novih_redova = duzina_reda / 80;
+              if(duzina_reda % 80 > 0) brojac_novih_redova++;
+              brojac_novih_redova--;
+
+              //Pomeraj redova ispod dodatnog reda
+              Array.Resize(ref celi_tekst, celi_tekst.Length + brojac_novih_redova);
+
+              for(int i=celi_tekst.Length-1; i > broj_reda + brojac_novih_redova; i--)
+              {
+                celi_tekst[i] = celi_tekst[i-brojac_novih_redova];
+              }
+
+              int brojac2=0;
+              for(int i=0; i < red_tr.Length; i+=80)
+              {
+                if(red_tr.Length - i < 80) celi_tekst[broj_reda+brojac2] = new StringBuilder(red_tr.Substring(i, duzina_reda-i));
+                else celi_tekst[broj_reda+brojac2] = new StringBuilder(red_tr.Substring(i, 80));
+                
+                brojac2++;
+              }
+
+              red_za_unosenje_teksta += brojac_novih_redova;
+              
+              //Ispis azuriranog teksta
               for(int i=0; i < celi_tekst.Length; i++)
               {
                 Console.WriteLine(celi_tekst[i].ToString());
